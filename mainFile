@@ -97,11 +97,11 @@
             <div class="col-lg-6">
                 <div class="form-floating">
                     <select class="form-control" id="cmbMouja">
-                        @*<option value="0">Select Mouja</option>
+                        @*<option value="0">Select Mouja</option>*@
                         @foreach (var mja in mouja)
                         {
                             <option value="@mja.Id">@mja.MoujaName</option>
-                        }*@
+                        }
                     </select>
                     <label>Mouja Name</label>
                 </div>
@@ -383,7 +383,7 @@
             return true;
         }
 
-        // ✅ Wrap GetMouja with a callback
+        
         function GetMouja(orgId, projectId, selectedMoujaId, callback) {
             $("#cmbMouja").html("");
             $.ajax({
@@ -392,13 +392,12 @@
                 data: { OrgId: orgId, ProjectId: projectId },
                 success: function (response) {
                     if (response.Status) {
-                        //var html = '<option value="0">Select Mouja</option>';
+                        var html = '<option value="0">Select Mouja</option>';
                         $.each(response.List, function (i, item) {
                             html += '<option value="' + item.Id + '">' + item.MoujaName + '</option>';
                         });
                         $("#cmbMouja").html(html);
 
-                        // ✅ Now set value safely
                         $("#cmbMouja").val(selectedMoujaId);
 
                         if (callback) callback();
@@ -412,7 +411,7 @@
             });
         }
 
-        // ✅ Same for RS Dag
+        
         function GetRSDagNo(orgId, projectId, moujaId, selectedRSDagNoId) {
             $("#cmbRSDagNo").html("");
             $.ajax({
@@ -421,13 +420,12 @@
                 data: { OrgId: orgId, ProjectId: projectId, MoujaId: moujaId },
                 success: function (response) {
                     if (response.Status) {
-                        //var html = '<option value="0">Select RS Dag No</option>';
+                        var html = '<option value="0">Select RS Dag No</option>';
                         $.each(response.List, function (i, item) {
                             html += '<option value="' + item.Id + '">' + item.RSDagNo + '</option>';
                         });
                         $("#cmbRSDagNo").html(html);
-
-                        // ✅ Now set value safely
+                        
                         $("#cmbRSDagNo").val(selectedRSDagNoId);
                     } else {
                         alert("Error: " + response.Message);
