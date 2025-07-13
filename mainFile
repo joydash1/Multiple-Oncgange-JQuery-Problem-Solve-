@@ -1,0 +1,443 @@
+@using Abashon.Common.Models.CommonDataModel
+@using Abashon.Common.ViewModels
+@using Abashon.LandPurchase.Models.LandPurchaseDataModels
+@{
+    ViewBag.Title = "Sale Statement";
+    ViewBag.bread = "Sale Statement";
+    var organization = (List<Organization>)ViewBag.Organization;
+    var project = (List<ProjectInformation>)ViewBag.Project;
+    var landType = (List<LandTypeViewModel>)ViewBag.LandType;
+    var mouja = (List<Mouja>)ViewBag.Mouja;
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/content/css/ProjectSetup.css">
+    <style type="text/css">
+        /* #cmbRSDagNo option {
+            text-align: center;
+        }*/
+    </style>
+}
+
+<section class="project-setup">
+    <div class="box">
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <select class="form-control" id="cmbOrganizationNew">
+                        @if (organization.Count > 1)
+                        {
+                            <option value="0">Select Organization</option>
+                        }
+                        @foreach (var org in organization)
+                        {
+                            <option value="@org.Id">@org.OrganizationName</option>
+                        }
+                    </select>
+                    <label>Organization Name</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <select class="form-control" id="cmbProjectNew">
+                        @if (project.Count > 1)
+                        {
+                            <option value="0">Select Project</option>
+                        }
+                        @foreach (var pro in project)
+                        {
+                            <option value="@pro.Id">@pro.ProjectName</option>
+                        }
+                    </select>
+                    <label>Project Name</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtFileNo" placeholder="">
+                    <label>File No</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtClientName" placeholder="">
+                    <label>Client Name</label>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-floating">
+                    <textarea type="text" class="form-control" id="txtClientAddress" placeholder=""></textarea>
+                    <label>Client Address</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtClientMobile" placeholder="">
+                    <label>Client Mobile</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtBlockNo" placeholder="">
+                    <label>Block</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtRoad" placeholder="">
+                    <label>Road</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtPlot" placeholder="">
+                    <label>Plot</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <select class="form-control" id="cmbMouja">
+                        @*<option value="0">Select Mouja</option>
+                        @foreach (var mja in mouja)
+                        {
+                            <option value="@mja.Id">@mja.MoujaName</option>
+                        }*@
+                    </select>
+                    <label>Mouja Name</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <select class="form-control" id="cmbRSDagNo">
+                        @*<option value="0">Select RS Dag No</option>*@
+                    </select>
+                    <label>RS Dag No</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtTotalLand" readonly="readonly">
+                    <label>Total Land (Decimal)</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtPruchasedLand" readonly="readonly">
+                    <label>Total Purchased Land (Decimal)</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtSoldLand" placeholder="">
+                    <label>Sold Land (Decimal)</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtLandAmount" placeholder="">
+                    <label>Land Amount</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtSellerDeed" placeholder="">
+                    <label>Seller Deed</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="txtPurchaserDeed" placeholder="">
+                    <label>Purchaser Deed</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control input-sm DateInput check-date" id="txtSaleDate" value="@DateTime.Now.ToString("dd/MM/yyyy")">
+                    <label>Sale Date</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-floating">
+                    <textarea type="text" class="form-control" id="txtRemarks" placeholder=""></textarea>
+                    <label>Remarks</label>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-center gap-3">
+                    <button class="btn btn-primary" id="btnSubmit" data-id="0">save</button>
+                    <button class="btn btn-secondary" id="btnReset">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box govt-rate-setup-data">
+            <div class="table" id="tblSaleStatementList">
+                <div class="thead">
+                    <div class="tr">
+                        <div class="th">Project Name</div>
+                        <div class="th">File No</div>
+                        <div class="th">Client Name</div>
+                        <div class="th">Mouja Name</div>
+                        <div class="th">RS Dag</div>
+                        <div class="th">Land Qty</div>
+                        <div class="th">Land Value</div>
+                        <div class="th">Sale Date</div>
+                        <div class="th">Sale Deed</div>
+                        <div class="th">Purchaser Deed</div>
+                        <div class="th">Action</div>
+                    </div>
+                </div>
+                <div class="tbody"></div>
+            </div>
+        </div>
+</section>
+<div class="loader" id="divLoader" style="display:none;"></div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(document).on('change', "#cmbProjectNew", function () {
+                var orgId = $("#cmbOrganizationNew option:selected").val();
+                var projectId = $("#cmbProjectNew option:selected").val();
+                GetMouja(orgId, projectId);
+            });
+
+            $(document).on('change', "#cmbMouja", function () {
+                var orgId = $("#cmbOrganizationNew option:selected").val();
+                var projectId = $("#cmbProjectNew option:selected").val();
+                var moujaId = $("#cmbMouja option:selected").val();
+                GetRSDagNo(orgId, projectId, moujaId);
+            });
+
+            $(document).on('change', "#cmbRSDagNo", function () {
+                var orgId = $("#cmbOrganizationNew option:selected").val();
+                var projectId = $("#cmbProjectNew option:selected").val();
+                var moujaId = $("#cmbMouja option:selected").val();
+                var rsDagNo = $("#cmbRSDagNo option:selected").text();
+                var dagNoId = $("#cmbRSDagNo option:selected").val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTotalLandAndPurchasedLandQuantity", "LandSaleDetails")',
+                    data: { OrgId: orgId, ProjectId: projectId, MoujaId: moujaId, DagNoId: dagNoId, RSDagno: rsDagNo },
+                    success: function (response) {
+                        if (response.Status) {
+                            console.log(response.Data);
+                            console.log(response.DataOne);
+                            $("#txtTotalLand").val(response.Data.TotalLandQuantity);
+                            $("#txtPruchasedLand").val(response.DataOne.TotalPurchaseQuantity);
+                        } else {
+                            alert("Error: " + response.Message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("AJAX Error: " + error);
+                    }
+                });
+            });
+
+            $(document).on('click', "#btnSubmit", function () {
+                var saleStatement = {
+                    ID: $("#btnSubmit").data("id"),
+                    OrganizationId: parseInt($("#cmbOrganizationNew").val()),
+                    ProjectId: parseInt($("#cmbProjectNew").val()),
+                    FileNo: $("#txtFileNo").val(),
+                    ClientName: $("#txtClientName").val(),
+                    ClientAddress: $("#txtClientAddress").val(),
+                    ClientMobile: $("#txtClientMobile").val(),
+                    BlockNo: $("#txtBlockNo").val(),
+                    PlotNo: $("#txtPlot").val(),
+                    RoadNo: $("#txtRoad").val(),
+                    MoujaId: parseInt($("#cmbMouja").val()),
+                    RSDagNoId: parseInt($("#cmbRSDagNo").val()),
+                    TotalLandQty: parseFloat($("#txtTotalLand").val()) || 0,
+                    TotalPurchasedLandQty: parseFloat($("#txtPruchasedLand").val()) || 0,
+                    TotalSoldLandQty: parseFloat($("#txtSoldLand").val()) || 0,
+                    TotalSoldAmount: parseFloat($("#txtLandAmount").val()) || 0,
+                    SalerDeedNo: $("#txtSellerDeed").val(),
+                    PurchaserDeedNo: $("#txtPurchaserDeed").val(),
+                    Remarks: $("#txtRemarks").val(),
+                    SaleDateSTR: $("#txtSaleDate").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertUpdateSaleStatement", "LandSaleDetails")',
+                    data: JSON.stringify({ saleStatement: saleStatement }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        if (response.Status == true) {
+                            swal({ title: 'Success!', text: response.Data.Message, type: 'success' }, function () {
+                                window.location.reload();
+                            });
+                        }
+                        else {
+                            swal("Error!!", data.Message, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("AJAX Error: " + error);
+                    }
+                });
+            });
+
+            GetSaleStatementList();
+
+            $(document).on('click', ".btn-edit", function () {
+                var id = $(this).attr("data-Id");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetSaleStatementById", "LandSaleDetails")',
+                    data: JSON.stringify({ Id: id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        if (response.Status == true) {
+                            var data = response.Data;
+                            $("#btnSubmit").data("id", data.ID);
+                            $("#cmbOrganizationNew").val(data.OrganizationId);
+                            $("#cmbProjectNew").val(data.ProjectId);
+
+                            // The rest can be set right away
+                            $("#txtFileNo").val(data.FileNo);
+                            $("#txtClientName").val(data.ClientName);
+                            $("#txtClientAddress").val(data.ClientAddress);
+                            $("#txtClientMobile").val(data.ClientMobile);
+                            $("#txtBlockNo").val(data.BlockNo);
+                            $("#txtPlot").val(data.PlotNo);
+                            $("#txtRoad").val(data.RoadNo);
+                            $("#txtTotalLand").val(data.TotalLandQty);
+                            $("#txtPruchasedLand").val(data.TotalPurchasedLandQty);
+                            $("#txtSoldLand").val(data.TotalSoldLandQty);
+                            $("#txtLandAmount").val(data.TotalSoldAmount);
+                            $("#txtSellerDeed").val(data.SalerDeedNo);
+                            $("#txtPurchaserDeed").val(data.PurchaserDeedNo);
+                            $("#txtRemarks").val(data.Remarks);
+                            $("#txtSaleDate").val(data.SaleDateSTR);
+
+                            // ✅ Load Mouja first, then RS Dag
+                            GetMouja(data.OrganizationId, data.ProjectId, data.MoujaId, function () {
+                                // This runs only after Mouja is done
+                                GetRSDagNo(data.OrganizationId, data.ProjectId, data.MoujaId, data.RSDagNoId);
+                            });
+                        }
+                        else {
+                            swal("Error!!", data.Message, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("AJAX Error: " + error);
+                    }
+                });
+            });
+        });
+        function GetSaleStatementList() {
+            $("#divLoader").show();
+            $("body").css("pointer-events", "none");
+            $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("GetSaleStatementList", "LandSaleDetails")',
+                data: JSON.stringify({}),
+                dataType: 'json',
+                async: true,
+                success: function (data) {
+                    $("#divLoader").hide();
+                    $("body").css("pointer-events", "");
+                    if (data.Status) {
+                        var html = "";
+                        $.each(data.DataList, function (id, option) {
+                            html += '<div class="tr">';
+                            html += '<div class="td"><span>' + option.ProjectName + '</span></div>';
+                            html += '<div class="td"><span>' + option.FileNo + '</span></div>';
+                            html += '<div class="td"><span>' + option.ClientName + '</span></div>';
+                            html += '<div class="td"><span>' + option.MoujaName + '</span></div>';
+                            html += '<div class="td"><span>' + option.RSDagNo + '</span></div>';
+                            html += '<div class="td"><span>' + option.TotalLandQty + '</span></div>';
+                            html += '<div class="td"><span>' + option.TotalSoldAmount + '</span></div>';
+                            html += '<div class="td"><span>' + option.SaleDateSTR + '</span></div>';
+                            html += '<div class="td"><span>' + option.SalerDeedNo + '</span></div>';
+                            html += '<div class="td"><span>' + option.PurchaserDeedNo + '</span></div>';
+                            html += '<div class="td">';
+                            html += '<div class="d-flex gap-2">';
+                            html += '<button data-Id="' + option.ID + '" class="btn btn-sm btn-primary btn-edit"><i class="fa-solid fa-pen-to-square"></i></button>';
+                            html += '<button data-Id="' + option.ID + '" class="btn btn-sm btn-danger btn-delete"><i class="fa-solid fa-trash-can"></i></button>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+                        if (data.DataList.length == 0) {
+                            html += '<div class="tr parent">';
+                            html += '<div class="td text-center">No data found.</div>';
+                            html += '</div>';
+                        }
+                        $("#tblSaleStatementList .tbody").html(html);
+                    } else {
+                        swal("error", data.Message, "error");
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("An error occured. Please contact to your vendor.");
+                }
+            });
+
+            return true;
+        }
+
+        // ✅ Wrap GetMouja with a callback
+        function GetMouja(orgId, projectId, selectedMoujaId, callback) {
+            $("#cmbMouja").html("");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetMoujaByOrganizationAndProject", "LandSaleDetails")',
+                data: { OrgId: orgId, ProjectId: projectId },
+                success: function (response) {
+                    if (response.Status) {
+                        //var html = '<option value="0">Select Mouja</option>';
+                        $.each(response.List, function (i, item) {
+                            html += '<option value="' + item.Id + '">' + item.MoujaName + '</option>';
+                        });
+                        $("#cmbMouja").html(html);
+
+                        // ✅ Now set value safely
+                        $("#cmbMouja").val(selectedMoujaId);
+
+                        if (callback) callback();
+                    } else {
+                        alert("Error: " + response.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX Error: " + error);
+                }
+            });
+        }
+
+        // ✅ Same for RS Dag
+        function GetRSDagNo(orgId, projectId, moujaId, selectedRSDagNoId) {
+            $("#cmbRSDagNo").html("");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetDagNoByOrgProMoujaId", "LandSaleDetails")',
+                data: { OrgId: orgId, ProjectId: projectId, MoujaId: moujaId },
+                success: function (response) {
+                    if (response.Status) {
+                        //var html = '<option value="0">Select RS Dag No</option>';
+                        $.each(response.List, function (i, item) {
+                            html += '<option value="' + item.Id + '">' + item.RSDagNo + '</option>';
+                        });
+                        $("#cmbRSDagNo").html(html);
+
+                        // ✅ Now set value safely
+                        $("#cmbRSDagNo").val(selectedRSDagNoId);
+                    } else {
+                        alert("Error: " + response.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX Error: " + error);
+                }
+            });
+        }
+
+    </script>
+}
